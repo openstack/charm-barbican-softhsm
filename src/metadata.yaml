@@ -1,0 +1,18 @@
+name: barbican-softhsm-plugin
+summary: The softhsm security module for the barbican charm service
+maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+subordinate: true
+description: |
+  Barbican provides a secure storage for keys and other secrets and
+  additionally has features to provide certificates to OpenStack applications.
+  The barbican-softhsm-plugin is for testing purposes only, and demonstrates
+  the barbican-hsm-plugin interface for interfacing real HSM providers with
+  Barbican.
+provides:
+  hsm:
+    interface: barbican-hsm-plugin
+    scope: container
+requires:
+  juju-info:
+    interface: juju-info
+    scope: container
