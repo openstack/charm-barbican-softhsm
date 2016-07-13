@@ -118,14 +118,14 @@ class TestBarbicanHandlers(unittest.TestCase):
                 self.assertEqual(l, sorted(p[f]))
 
     def test_install_packages(self):
-        self.patch(handlers.softhsm_plugin, 'install')
+        self.patch(handlers.softhsm, 'install')
         self.patch(handlers.reactive, 'set_state')
         handlers.install_packages()
         self.install.assert_called_once_with()
         self.set_state.assert_called_once_with('charm.installed')
 
     def test_hsm_connected(self):
-        self.patch(handlers.softhsm_plugin, 'on_hsm_connected')
+        self.patch(handlers.softhsm, 'on_hsm_connected')
         self.patch(handlers.reactive, 'set_state')
         handlers.hsm_connected('hsm-thing')
         self.on_hsm_connected.assert_called_once_with('hsm-thing')
