@@ -5,12 +5,12 @@ subordinate: true
 description: |
   Barbican provides a secure storage for keys and other secrets and
   additionally has features to provide certificates to OpenStack applications.
-  The barbican-softhsm-plugin is for testing purposes only, and demonstrates
-  the barbican-hsm-plugin interface for interfacing real HSM providers with
+  The barbican-softhsm is for testing purposes only, and demonstrates
+  the barbican-hsm interface for interfacing real HSM providers with
   Barbican.
 provides:
   hsm:
-    interface: barbican-hsm-plugin
+    interface: barbican-hsm
     scope: container
 requires:
   juju-info:

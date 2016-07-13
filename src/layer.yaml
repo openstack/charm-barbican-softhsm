@@ -1,4 +1,4 @@
-includes: ['layer:openstack', 'interface:barbican-hsm-plugin']
+includes: ['layer:openstack', 'interface:barbican-hsm']
 options:
   basic:
     use_venv: True

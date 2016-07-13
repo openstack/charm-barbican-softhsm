@@ -10,7 +10,7 @@ Systems.  It is intended to provide a example on how to plug an HSM into
 Barbican.
 
 In particular, the SoftHSM2 plugin charm (as a subordinate) implements the
-barbican-hsm-plugin interface which transfers the credentials to the Barbican
+barbican-hsm interface which transfers the credentials to the Barbican
 charm to be able to access the the HSM.
 
 From [the GitHub page](https://github.com/opendnssec/SoftHSMv2):
@@ -46,11 +46,11 @@ http://bugs.launchpad.net/charms/+source/barbican/).
 Barbican communicates with HSM devices via a local (to Barbican) PKCS11
 library.  Thus an HSM plugin needs to be local to the unit that a Barbican is
 installed on, and so a plugin charm is subordinate to the Barbican charm.  A
-plugin provides the barbican-hsm-plugin interface that provides sufficient
+plugin provides the barbican-hsm interface that provides sufficient
 details to the Barbican charm to be able to configure barbican to access the
 HSM's PKCS11 libary.
 
-The barbican-hsm-plugin interface transfers `login`, `slot_id` and
+The barbican-hsm interface transfers `login`, `slot_id` and
 `library_path` parameters to the Barbican charm, which uses them to configure
 Barbican to access the PKCS11 compliant library of the HSM.
 
