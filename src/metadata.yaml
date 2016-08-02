@@ -1,6 +1,12 @@
 name: barbican-softhsm
 summary: The softhsm security module for the barbican charm service
 maintainer: OpenStack Charmers <openstack-charmers@lists.ubuntu.com>
+tags:
+  - openstack
+series:
+# Trusty disabled pending https://bugs.launchpad.net/bugs/1609498
+# - trusty
+ - xenial
 subordinate: true
 description: |
   Barbican provides a secure storage for keys and other secrets and

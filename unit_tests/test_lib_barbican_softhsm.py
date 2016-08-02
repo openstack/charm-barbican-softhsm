@@ -224,4 +224,3 @@ class TestBarbicanSoftHSMCharm(Helper):
             "login": 'abcd',
             "slot_id": '10'
         })
-
