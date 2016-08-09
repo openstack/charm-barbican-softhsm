@@ -1,5 +1,13 @@
 # Barbican SoftHSM2 Plugin
 
+**Barbican + SoftHSM2 + OpenSSL < 1.0.2h is broken**
+
+This charm cannot be used at present as Barbican expects a mechanism in the
+PKCS#11 library that SoftHSM2 + OpenSSL < 1.0.2h does not support.
+
+However, this charm can _still_ be used as a basis for implementing _actual_
+hardward HSM charms, along with the `interface-barbican-hsm` interface.
+
 Barbican is a REST API designed for the secure storage, provisioning and
 management of secrets. It is aimed at being useful for all environments,
 including large ephemeral Clouds. (see [Barbican

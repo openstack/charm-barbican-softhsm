@@ -14,6 +14,8 @@ description: |
   The barbican-softhsm is for testing purposes only, and demonstrates
   the barbican-hsm interface for interfacing real HSM providers with
   Barbican.
+tags:
+  - openstack
 provides:
   hsm:
     interface: barbican-hsm
