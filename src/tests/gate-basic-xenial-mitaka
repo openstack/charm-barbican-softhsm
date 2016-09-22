@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 
-"""Amulet tests on a basic aodh deployment on xenial-mitaka for keystone v2.
+"""Amulet tests on a basic aodh deployment on xenial-mitaka for keystone v3.
 """
 
 from basic_deployment import SoftHSMBasicDeployment
 
 if __name__ == '__main__':
-    deployment = SoftHSMBasicDeployment(series='xenial', keystone_version=2)
+    deployment = SoftHSMBasicDeployment(series='xenial', keystone_version=3)
     deployment.run_tests()

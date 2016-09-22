@@ -42,9 +42,10 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
         self._deploy()
 
         u.log.info('Waiting on extended status checks...')
-        exclude_services = ['mysql', ]
+        exclude_services = []
         self._auto_wait_for_status(exclude_services=exclude_services)
 
+        self.d.sentry.wait()
         self._initialize_tests()
 
     def _add_services(self):
@@ -55,10 +56,12 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
            compatible with the local charm (e.g. stable or next).
            """
         this_service = {'name': 'barbican-softhsm'}
-        other_services = [{'name': 'barbican'},
-                          {'name': 'mysql'},
-                          {'name': 'rabbitmq-server'},
-                          {'name': 'keystone'}]
+        other_services = [
+            {'name': 'barbican'},
+            {'name': 'percona-cluster', 'constraints': {'mem': '3072M'}},
+            {'name': 'rabbitmq-server'},
+            {'name': 'keystone'}
+        ]
         super(SoftHSMBasicDeployment, self)._add_services(
             this_service, other_services)
 
@@ -66,10 +69,10 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
         """Add all of the relations for the services."""
         relations = {
             'barbican:hsm': 'barbican-softhsm:hsm',
-            'barbican:shared-db': 'mysql:shared-db',
+            'barbican:shared-db': 'percona-cluster:shared-db',
             'barbican:amqp': 'rabbitmq-server:amqp',
             'barbican:identity-service': 'keystone:identity-service',
-            'keystone:shared-db': 'mysql:shared-db',
+            'keystone:shared-db': 'percona-cluster:shared-db',
         }
         super(SoftHSMBasicDeployment, self)._add_relations(relations)
 
@@ -86,9 +89,16 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
             'verbose': True,
             'keystone-api-version': str(keystone_version),
         }
+        pxc_config = {
+            'dataset-size': '25%',
+            'max-connections': 1000,
+            'root-password': 'ChangeMe123',
+            'sst-password': 'ChangeMe123',
+        }
         configs = {
             'keystone': keystone_config,
             'barbican': barbican_config,
+            'percona-cluster': pxc_config,
         }
         super(SoftHSMBasicDeployment, self)._configure_services(configs)
 
@@ -97,7 +107,7 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
         # Access the sentries for inspecting service units
         self.softhsm_sentry = self.d.sentry['barbican-softhsm'][0]
         self.barbican_sentry = self.d.sentry['barbican'][0]
-        self.mysql_sentry = self.d.sentry['mysql'][0]
+        self.pxc_sentry = self.d.sentry['percona-cluster'][0]
         self.keystone_sentry = self.d.sentry['keystone'][0]
         self.rabbitmq_sentry = self.d.sentry['rabbitmq-server'][0]
         u.log.debug('openstack release val: {}'.format(
@@ -106,7 +116,7 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
             self._get_openstack_release_string()))
 
         keystone_ip = self.keystone_sentry.relation(
-            'shared-db', 'mysql:shared-db')['private-address']
+            'shared-db', 'percona-cluster:shared-db')['private-address']
 
         # We need to auth either to v2.0 or v3 keystone
         if self._keystone_version == '2':
