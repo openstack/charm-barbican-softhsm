@@ -14,7 +14,14 @@
 
 import charms.reactive as reactive
 
+import charms_openstack.charm
+
 import charm.openstack.softhsm as softhsm
+
+# Use the charms.openstack defaults for common states and hooks
+charms_openstack.charm.use_defaults(
+    'config.changed',
+    'update-status')
 
 
 # use a synthetic state to ensure that it get it to be installed independent of
@@ -29,3 +36,4 @@ def install_packages():
 def hsm_connected(hsm):
     softhsm.on_hsm_connected(hsm)
     reactive.set_state('hsm.available')
+    softhsm.assess_status()

@@ -16,52 +16,32 @@ from __future__ import absolute_import
 from __future__ import print_function
 
 import textwrap
-import unittest
 
 import mock
 
 import charm.openstack.softhsm as softhsm
 
-
-class Helper(unittest.TestCase):
-
-    def setUp(self):
-        self._patches = {}
-        self._patches_start = {}
-        # patch out the select_release to always return 'mitaka'
-        # self.patch(softhsm.unitdata, 'kv')
-        # _getter = mock.MagicMock()
-        # _getter.get.return_value = softhsm.BarbicanSoftHSMCharm.release
-        # self.kv.return_value = _getter
-
-    def tearDown(self):
-        for k, v in self._patches.items():
-            v.stop()
-            setattr(self, k, None)
-        self._patches = None
-        self._patches_start = None
-
-    def patch(self, obj, attr, return_value=None, **kwargs):
-        mocked = mock.patch.object(obj, attr, **kwargs)
-        self._patches[attr] = mocked
-        started = mocked.start()
-        started.return_value = return_value
-        self._patches_start[attr] = started
-        setattr(self, attr, started)
+import charms_openstack.test_utils as test_utils
 
 
-class TestSoftHSM(Helper):
+class TestSoftHSM(test_utils.PatchHelper):
 
     def test_install(self):
-        self.patch(softhsm.BarbicanSoftHSMCharm.singleton, 'install')
+        self.patch_object(softhsm.BarbicanSoftHSMCharm.singleton, 'install')
         softhsm.install()
         self.install.assert_called_once_with()
 
     def test_on_hsm_connected(self):
-        self.patch(softhsm.BarbicanSoftHSMCharm.singleton,
-                   'on_hsm_connected')
+        self.patch_object(softhsm.BarbicanSoftHSMCharm.singleton,
+                          'on_hsm_connected')
         softhsm.on_hsm_connected('hsm-thing')
         self.on_hsm_connected.assert_called_once_with('hsm-thing')
+
+    def test_assess_status(self):
+        self.patch_object(softhsm.BarbicanSoftHSMCharm.singleton,
+                          'assess_status')
+        softhsm.assess_status()
+        self.assess_status.assert_called_once_with()
 
     def test_read_pins_from_store(self):
         # test with no file (patch open so that it raises an error)
@@ -84,9 +64,9 @@ class TestSoftHSM(Helper):
 
     def test_write_pins_to_store(self):
         f = mock.MagicMock()
-        self.patch(softhsm.os, 'fdopen', return_value=f)
-        self.patch(softhsm.os, 'open', return_value='opener')
-        self.patch(softhsm.json, 'dump')
+        self.patch_object(softhsm.os, 'fdopen', return_value=f)
+        self.patch_object(softhsm.os, 'open', return_value='opener')
+        self.patch_object(softhsm.json, 'dump')
         softhsm.write_pins_to_store('1234', '5678')
         self.open.assert_called_once_with(
             softhsm.STORED_PINS_FILE,
@@ -115,23 +95,23 @@ class TestSoftHSM(Helper):
                 User PIN init.:   yes
                 Label:            barbican_token
         """)
-        self.patch(softhsm.subprocess, 'check_output',
-                   return_value=result.encode())
+        self.patch_object(softhsm.subprocess, 'check_output',
+                          return_value=result.encode())
         self.assertEqual(softhsm.read_slot_id('barbican_token'), '5')
         self.check_output.assert_called_once_with(
             [softhsm.SOFTHSM2_UTIL_CMD, '--show-slots'])
         self.assertEqual(softhsm.read_slot_id('not_found'), None)
 
 
-class TestBarbicanSoftHSMCharm(Helper):
+class TestBarbicanSoftHSMCharm(test_utils.PatchHelper):
 
     def test_install(self):
-        self.patch(softhsm.charms_openstack.charm.OpenStackCharm,
-                   'install')
-        self.patch(softhsm.ch_core_host, 'add_user_to_group')
+        self.patch_object(softhsm.charms_openstack.charm.OpenStackCharm,
+                          'install')
+        self.patch_object(softhsm.ch_core_host, 'add_user_to_group')
         c = softhsm.BarbicanSoftHSMCharm()
-        self.patch(c, 'setup_token_store')
-        self.patch(softhsm.hookenv, 'status_set')
+        self.patch_object(c, 'setup_token_store')
+        self.patch_object(softhsm.hookenv, 'status_set')
         c.install()
         self.install.assert_called_once_with()
         self.add_user_to_group.assert_called_once_with('barbican', 'softhsm')
@@ -140,17 +120,17 @@ class TestBarbicanSoftHSMCharm(Helper):
             'waiting', 'Charm installed and token store configured')
 
     def test_setup_token_store(self):
-        self.patch(softhsm, 'read_pins_from_store')
-        self.patch(softhsm.os.path, 'exists')
-        self.patch(softhsm.os.path, 'isdir')
-        self.patch(softhsm.shutil, 'rmtree')
-        self.patch(softhsm.os, 'remove')
-        self.patch(softhsm.os, 'makedirs')
-        self.patch(softhsm.os, 'chmod')
-        self.patch(softhsm.ch_core_host, 'pwgen')
-        self.patch(softhsm, 'write_pins_to_store')
-        self.patch(softhsm.subprocess, 'check_call')
-        self.patch(softhsm.hookenv, 'log')
+        self.patch_object(softhsm, 'read_pins_from_store')
+        self.patch_object(softhsm.os.path, 'exists')
+        self.patch_object(softhsm.os.path, 'isdir')
+        self.patch_object(softhsm.shutil, 'rmtree')
+        self.patch_object(softhsm.os, 'remove')
+        self.patch_object(softhsm.os, 'makedirs')
+        self.patch_object(softhsm.os, 'chmod')
+        self.patch_object(softhsm.ch_core_host, 'pwgen')
+        self.patch_object(softhsm, 'write_pins_to_store')
+        self.patch_object(softhsm.subprocess, 'check_call')
+        self.patch_object(softhsm.hookenv, 'log')
         # first, pretend that the token store is already setup.
         self.read_pins_from_store.return_value = ('1234', '5678', )
         c = softhsm.BarbicanSoftHSMCharm()
@@ -183,12 +163,12 @@ class TestBarbicanSoftHSMCharm(Helper):
 
     def test_on_hsm_connected(self):
         hsm = mock.MagicMock()
-        self.patch(softhsm, 'read_pins_from_store')
-        self.patch(softhsm, 'read_slot_id')
-        self.patch(softhsm.hookenv, 'status_set')
-        self.patch(softhsm.hookenv, 'log')
+        self.patch_object(softhsm, 'read_pins_from_store')
+        self.patch_object(softhsm, 'read_slot_id')
+        self.patch_object(softhsm.hookenv, 'status_set')
+        self.patch_object(softhsm.hookenv, 'log')
         c = softhsm.BarbicanSoftHSMCharm()
-        self.patch(c, 'setup_token_store')
+        self.patch_object(c, 'setup_token_store')
         # simulate not being able to set up the token store
         self.read_pins_from_store.return_value = None, None
         with self.assertRaises(RuntimeError):

@@ -42,7 +42,17 @@ def install():
 
 
 def on_hsm_connected(hsm):
+    """When SoftHSM connects to Barbican, configure Barbican with the
+    information necessary to configure the plugin.
+
+    :param hsm: the hsm relation object
+    """
     BarbicanSoftHSMCharm.singleton.on_hsm_connected(hsm)
+
+
+def assess_status():
+    """Call the charm assess_status function"""
+    BarbicanSoftHSMCharm.singleton.assess_status()
 
 
 class BarbicanSoftHSMCharm(charms_openstack.charm.OpenStackCharm):
