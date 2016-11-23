@@ -63,7 +63,7 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
             {'name': 'keystone'}
         ]
         super(SoftHSMBasicDeployment, self)._add_services(
-            this_service, other_services)
+            this_service, other_services, no_origin=['barbican-softhsm'])
 
     def _add_relations(self):
         """Add all of the relations for the services."""
