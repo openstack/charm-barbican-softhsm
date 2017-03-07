@@ -8,6 +8,7 @@ series:
 # - trusty
  - xenial
  - yakkety
+ - zesty
 subordinate: true
 description: |
   Barbican provides a secure storage for keys and other secrets and
