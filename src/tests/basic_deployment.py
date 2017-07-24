@@ -272,7 +272,7 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
                     demo_user, admin_role, tenant=tenant))
             # now we can finally get the barbican client and create the secret
             keystone_ep = self.keystone.service_catalog.url_for(
-                service_type='identity', endpoint_type='publicURL')
+                service_type='identity', interface='publicURL')
             auth = keystone_identity.v2.Password(
                 username=demo_user.name,
                 password='pass',
@@ -329,7 +329,7 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
                     project=demo_project)
             # now we can finally get the barbican client and create the secret
             keystone_ep = self.keystone.service_catalog.url_for(
-                service_type='identity', endpoint_type='publicURL')
+                service_type='identity', interface='publicURL')
             auth = keystone_identity.v3.Password(
                 user_domain_name=domain.name,
                 username=demo_user.name,
@@ -342,7 +342,7 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
         sess = keystone_session.Session(auth=auth)
         # Authenticate admin with barbican endpoint
         barbican_ep = self.keystone.service_catalog.url_for(
-            service_type='key-manager', endpoint_type='publicURL')
+            service_type='key-manager', interface='publicURL')
         barbican = barbican_client.Client(session=sess,
                                           endpoint=barbican_ep)
 
