@@ -47,8 +47,8 @@ class TestSoftHSM(test_utils.PatchHelper):
         # test with no file (patch open so that it raises an error)
         mock_open = mock.MagicMock(return_value=mock.sentinel.file_handle)
         with mock.patch('builtins.open', mock_open):
-            def raise_exception():
-                raise Exception("Supposed to break")
+            def raise_exception(*args):
+                raise OSError("Supposed to break")
             mock_open.side_effect = raise_exception
             pin, so_pin = softhsm.read_pins_from_store()
             self.assertEqual(pin, None)
