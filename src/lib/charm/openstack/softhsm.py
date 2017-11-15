@@ -188,7 +188,7 @@ def read_pins_from_store():
         pin = o['pin']
         so_pin = o['so_pin']
         return pin, so_pin
-    except:
+    except Exception:
         return None, None
 
 
