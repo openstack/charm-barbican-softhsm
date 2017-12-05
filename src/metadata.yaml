@@ -7,8 +7,8 @@ series:
 # Trusty disabled pending https://bugs.launchpad.net/bugs/1609498
 #  - trusty
   - xenial
+  - bionic
   - artful
-  - zesty
 subordinate: true
 description: |
   Barbican provides a secure storage for keys and other secrets and
