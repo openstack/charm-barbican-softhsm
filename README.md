@@ -19,7 +19,7 @@ Barbican.
 
 In particular, the SoftHSM2 plugin charm (as a subordinate) implements the
 barbican-hsm interface which transfers the credentials to the Barbican
-charm to be able to access the the HSM.
+charm to be able to access the HSM.
 
 From [the GitHub page](https://github.com/opendnssec/SoftHSMv2):
 
