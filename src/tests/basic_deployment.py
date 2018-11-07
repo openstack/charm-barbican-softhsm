@@ -86,8 +86,6 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
         # say we don't need an HSM for these tests
         barbican_config = {
             'require-hsm-plugin': True,
-            'verbose': True,
-            'keystone-api-version': str(keystone_version),
         }
         pxc_config = {
             'dataset-size': '25%',
