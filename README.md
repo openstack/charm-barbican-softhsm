@@ -1,5 +1,8 @@
 # Barbican SoftHSM2 Plugin
 
+This charm exists to provide an example back-end for Barbican, for the purpose
+of test and reference.  It is not intended for production use in any case.
+
 **Barbican + SoftHSM2 + OpenSSL < 1.0.2h is broken**
 
 This charm cannot be used at present as Barbican expects a mechanism in the
