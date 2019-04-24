@@ -3,4 +3,3 @@ repo: https://github.com/openstack/charm-barbican-softhsm
 options:
   basic:
     use_venv: true
-    include_system_packages: true
