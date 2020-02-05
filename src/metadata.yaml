@@ -8,7 +8,6 @@ series:
 #  - trusty
   - xenial
   - bionic
-  - disco
   - eoan
 subordinate: true
 description: |
