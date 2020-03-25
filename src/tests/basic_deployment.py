@@ -80,7 +80,6 @@ class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
         """Configure all of the services."""
         keystone_config = {
             'admin-password': 'openstack',
-            'admin-token': 'ubuntutesting',
             'preferred-api-version': str(keystone_version),
         }
         # say we don't need an HSM for these tests
