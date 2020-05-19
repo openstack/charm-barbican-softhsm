@@ -9,6 +9,7 @@ series:
   - xenial
   - bionic
   - eoan
+  - focal
 subordinate: true
 description: |
   Barbican provides a secure storage for keys and other secrets and
