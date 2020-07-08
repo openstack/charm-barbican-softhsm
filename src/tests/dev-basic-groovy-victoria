@@ -1,0 +1,10 @@
+#!/usr/bin/env python
+
+"""Amulet tests on a basic barbican deploy on groovy-victoria for keystone v3.
+"""
+
+from basic_deployment import SoftHSMBasicDeployment
+
+if __name__ == '__main__':
+    deployment = SoftHSMBasicDeployment(series='groovy', keystone_version=3)
+    deployment.run_tests()
