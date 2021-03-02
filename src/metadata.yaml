@@ -6,10 +6,11 @@ tags:
 series:
 # Trusty disabled pending https://bugs.launchpad.net/bugs/1609498
 #  - trusty
-  - xenial
-  - bionic
-  - focal
-  - groovy
+- xenial
+- bionic
+- focal
+- groovy
+- hirsute
 subordinate: true
 description: |
   Barbican provides a secure storage for keys and other secrets and
