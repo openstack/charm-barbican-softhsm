@@ -26,7 +26,7 @@ u = OpenStackAmuletUtils(DEBUG)
 class SoftHSMBasicDeployment(OpenStackAmuletDeployment):
     """Amulet tests on a basic SoftHSM deployment."""
 
-    def __init__(self, series, openstack=None, source=None, stable=False,
+    def __init__(self, series, openstack=None, source=None, stable=True,
                  keystone_version='2'):
         """Deploy the entire test environment.
 
