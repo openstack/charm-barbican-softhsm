@@ -11,6 +11,7 @@ series:
 - focal
 - groovy
 - hirsute
+- impish
 subordinate: true
 description: |
   Barbican provides a secure storage for keys and other secrets and
