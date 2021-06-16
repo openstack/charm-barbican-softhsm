@@ -1,5 +1,8 @@
 # Barbican SoftHSM2 Plugin
 
+> **WARNING**: DO NOT USE OR CONTRIBUTE.
+> [THIS CHARM IS DEPRECATED](https://docs.openstack.org/charm-guide/latest/openstack-charms.html).
+
 This charm exists to provide an example back-end for Barbican, for the purpose
 of test and reference.  It is not intended for production use in any case.
 
