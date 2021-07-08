@@ -49,7 +49,7 @@ If you have a technical question about this Charm, you can send an email to the
 [OpenStack General mailing list](
 http://lists.openstack.org/pipermail/openstack/) at
 `openstack@lists.openstack.org` with the prefix `[barbican]` in the subject, or
-ask in the `#openstack-charms` on Freenode..
+ask in the `#openstack-charms` on OFTC..
 
 To file a bug, use our bug tracker on [Launchpad](
 http://bugs.launchpad.net/charms/+source/barbican/).
